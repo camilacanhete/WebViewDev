@@ -24,11 +24,11 @@ WebViewDev is built with debugging in mind:
 3. **Launch WebViewDev**: Enter your computer's local IP address and the port your server is using (e.g., `http://192.168.1.50:8080`).
 4. **Confirm**: The app will load your game instantly.
 
-### On an Android Emulator (For Dummies)
+### On an Android Emulator
 1. **Install it**: Open your Android Emulator. Simply **drag and drop** the `apk` file from your computer's folder directly onto the emulator screen. It will install automatically.
 2. **Run your local server**: Ensure your game server (Vite, Webpack, etc.) is running and listening on your local network (usually by binding to `0.0.0.0` or your local IP).
 3. **The Secret "Loopback" IP**: When you are inside an emulator, `localhost` refers to the *emulator itself*, not your computer. To talk to your computer's server, you MUST use:
-   - **`http://10.0.2.2:PORT`** 
+   - **`http://10.0.2.2:PORT`**
 4. **Launch WebViewDev**: Open the app in the emulator and type `http://10.0.2.2:PORT`.
 5. **Confirm**: The app will load your game instantly.
 
