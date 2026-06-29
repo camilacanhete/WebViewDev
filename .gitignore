@@ -1,15 +1,77 @@
+# =========================
+# Android
+# =========================
 *.iml
-.gradle
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
+/Android/.gradle
+/Android/local.properties
+/Android/.idea/caches
+/Android/.idea/libraries
+/Android/.idea/modules.xml
+/Android/.idea/workspace.xml
+/Android/.idea/navEditor.xml
+/Android/.idea/assetWizardSettings.xml
+/Android/build
+/Android/captures
+/Android/.externalNativeBuild
+/Android/.cxx
+/Android/local.properties
+
+# =========================
+# iOS / Xcode
+# =========================
+# Xcode user data
+/iOS/*.xcodeproj/xcuserdata/
+/iOS/*.xcworkspace/xcuserdata/
+/iOS/*.xcodeproj/project.xcworkspace/xcuserdata/
+/iOS/*.xcodeproj/project.xcworkspace/xcshareddata/
+/iOS/*.xcodeproj/project.xcworkspace/contents.xcworkspacedata
+
+# Build output
+/iOS/build/
+/iOS/DerivedData/
+/iOS/*.build/
+/iOS/*.app
+/iOS/*.dSYM
+/iOS/*.ipa
+/iOS/*.xcarchive
+
+# CocoaPods
+/iOS/Pods/
+/iOS/Podfile.lock
+/iOS/.cocoapods/
+
+# Carthage
+/iOS/Carthage/Build/
+
+# Swift Package Manager
+/iOS/.build/
+/iOS/*.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/
+
+# Xcode auto-generated files
+/iOS/*.xcodeproj/project.xcworkspace/xcuserdata/
+/iOS/*.xcworkspace/xcuserdata/
+/iOS/*.xcodeproj/xcuserdata/
+
+# iOS temporary files
+/iOS/*.swiftpm
+/iOS/.swiftpm
+
+# Xcode breakpoints & schemes (user-specific)
+/iOS/*.xcodeproj/xcuserdata/
+/iOS/*.xcodeworkspacedata
+
+# =========================
+# OS / IDE generic
+# =========================
 .DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
-local.properties
+*.swp
+*.swo
+*~
+Thumbs.db
+Desktop.ini
+
+# =========================
+# Optional: exclude large logs or temp files
+# =========================
+*.log
+*.tmp
