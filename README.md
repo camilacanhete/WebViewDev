@@ -3,7 +3,7 @@
 WebViewDev is a minimalist Android and iOS tool designed for web game developers. Its sole purpose is to provide a real mobile WebView environment to test and debug web games running on a local development server.
 
 ## 🚀 Purpose
-Testing web games in a mobile browser is often not enough to catch mobile-specific WebView bugs or performance issues. WebViewDev allows you to point an Android app directly to your development machine's IP address, giving you a native-like container for your web project.
+Testing web games in a mobile browser is often not enough to catch mobile-specific WebView bugs or performance issues. WebViewDev allows you to point a native mobile app directly to your development machine's IP address, giving you a WebView container for your web project.
 
 ---
 
