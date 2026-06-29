@@ -64,17 +64,9 @@ WebViewDev is built with debugging in mind:
 #### On the iOS Simulator
 1. **Run your local server**: Ensure your game server is running and bound to `0.0.0.0` or `localhost` on your Mac.
 2. **The Simulator shares your Mac's network**: Unlike Android, the iOS Simulator uses the host machine's network stack directly, so `localhost` and `127.0.0.1` work as-is — no special IP needed.
-3. **Allow plain HTTP**: Add the following to your `Info.plist` to allow `http://localhost` connections (ATS blocks plain HTTP by default):
-   ```xml
-   <key>NSAppTransportSecurity</key>
-   <dict>
-       <key>NSAllowsLocalNetworking</key>
-       <true/>
-   </dict>
-   ```
-4. **Build & run**: Select any iOS Simulator as the target in Xcode and hit **Run** (`⌘R`).
-5. **Launch WebViewDev**: Enter `http://localhost:PORT` and tap **Load**.
-6. **Confirm**: The app will load your game instantly.
+3. **Build & run**: Select any iOS Simulator as the target in Xcode and hit **Run** (`⌘R`).
+4. **Launch WebViewDev**: Enter `http://localhost:PORT` and tap **Load**.
+5. **Confirm**: The app will load your game instantly.
 
 ---
 
