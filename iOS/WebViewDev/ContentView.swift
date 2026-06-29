@@ -186,54 +186,69 @@ struct ContentView: View {
     @State private var isLoading: Bool    = false
     @State private var showErrorAlert: Bool = false
     @State private var errorMessage: String = ""
+    @State private var isFullScreen: Bool = false
 
     private let lastURLKey = "lastURL"
 
     var body: some View {
-        VStack(spacing: 0) {
-
-            HStack {
-                TextField(
-                    "e.g. http://localhost:8080",
-                    text: $urlString
-                )
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .autocapitalization(.none)
-                .disableAutocorrection(true)
-                .keyboardType(.URL)
-                .onSubmit { loadURL() }
-
-                Button("Load") { loadURL() }
-                    .disabled(urlString.isEmpty)
-                    .padding(.leading, 4)
-            }
-            .padding()
-            .background(Color(UIColor.systemBackground))
-
-            ZStack {
-                if let url = currentURL {
-                    WebView(url: url, isLoading: $isLoading) { error in
-                        errorMessage = error.localizedDescription
-                        showErrorAlert = true
-                    }
-                    .ignoresSafeArea(edges: .bottom)
-                } else {
-                    VStack(spacing: 12) {
-                        Image(systemName: "safari")
-                            .font(.system(size: 48))
-                            .foregroundColor(.secondary)
-                        Text("Enter a server URL and tap Load")
-                            .foregroundColor(.secondary)
-                    }
+        ZStack {
+            // ── WebView (always present once loaded) ─────────────────────
+            if let url = currentURL {
+                WebView(url: url, isLoading: $isLoading) { error in
+                    // On error, drop back to the URL bar so the user can fix it
+                    errorMessage = error.localizedDescription
+                    showErrorAlert = true
+                    withAnimation(.easeInOut) { isFullScreen = false }
                 }
+                .ignoresSafeArea()
 
+                // Loading spinner — only while the page hasn't finished yet
                 if isLoading {
                     ProgressView()
-                        .progressViewStyle(CircularProgressViewStyle(tint: .blue))
+                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
                         .scaleEffect(1.5)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .background(Color.black.opacity(0.3))
+                        .ignoresSafeArea()
                 }
             }
+
+            // ── URL sheet overlay ─────────────────────────────────────────
+            if !isFullScreen {
+                VStack {
+                    Spacer()
+
+                    VStack(spacing: 16) {
+                        Text("Development Server")
+                            .font(.headline)
+
+                        HStack {
+                            TextField(
+                                "e.g. http://localhost:8080",
+                                text: $urlString
+                            )
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .autocapitalization(.none)
+                            .disableAutocorrection(true)
+                            .keyboardType(.URL)
+                            .onSubmit { loadURL() }
+
+                            Button("Load") { loadURL() }
+                                .disabled(urlString.isEmpty)
+                        }
+                    }
+                    .padding(24)
+                    .background(
+                        RoundedRectangle(cornerRadius: 20, style: .continuous)
+                            .fill(Color(UIColor.systemBackground))
+                            .shadow(color: .black.opacity(0.15), radius: 20, x: 0, y: -4)
+                    )
+                }
+                .ignoresSafeArea(edges: .bottom)
+                .transition(.move(edge: .bottom))
+            }
         }
+        .animation(.easeInOut(duration: 0.35), value: isFullScreen)
         .alert("Load Error", isPresented: $showErrorAlert) {
             Button("OK", role: .cancel) { }
         } message: {
@@ -243,11 +258,12 @@ struct ContentView: View {
             if let saved = UserDefaults.standard.string(forKey: lastURLKey),
                !saved.isEmpty {
                 urlString = saved
-                loadURL()
+                // Show the bar with the saved URL pre-filled; user confirms
             }
         }
     }
 
+    // MARK: - Load helper
     private func loadURL() {
         var trimmed = urlString.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty else { return }
@@ -262,7 +278,7 @@ struct ContentView: View {
             return
         }
 
-        // Rewrite http(s):// → devhttp(s):// so our scheme handler intercepts it
+		// Rewrite http(s):// → devhttp(s):// so our scheme handler intercepts it
         let devURL = url.absoluteString
             .replacingOccurrences(of: "http://",  with: "devhttp://")
             .replacingOccurrences(of: "https://", with: "devhttps://")
@@ -275,6 +291,9 @@ struct ContentView: View {
         UIApplication.shared.sendAction(
             #selector(UIResponder.resignFirstResponder),
             to: nil, from: nil, for: nil)
+
+        // Slide the sheet away once loading begins
+        withAnimation(.easeInOut(duration: 0.35)) { isFullScreen = true }
     }
 }
 
